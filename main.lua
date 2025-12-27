@@ -3,14 +3,14 @@ local function fail(s, ...)
 end
 
 local function run_pandoc(in_url, out_url, args)
-    if Url(in_url) == Url(out_url) then
-        fail("Input and output file are the same:\n%s", in_url)
+    local uniq_out_url, err = fs.unique_name(Url(out_url))
+    if uniq_out_url == nil or err ~= nil then
+        fail("Failed to get unique output file name: %s", err)
         return nil, nil
     end
-    -- TODO: check if file already exists -> skip/warn
 
     local cmd = Command("pandoc")
-        :arg("--output"):arg(out_url)
+        :arg("--output"):arg(tostring(uniq_out_url))
         :arg(in_url)
 
     if args.defaults ~= nil then
