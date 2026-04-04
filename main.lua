@@ -3,7 +3,7 @@ local function fail(s, ...)
 end
 
 local function run_pandoc(in_url, out_url, args)
-    local uniq_out_url, err = fs.unique_name(Url(out_url))
+    local uniq_out_url, err = fs.unique(Url(out_url))
     if uniq_out_url == nil or err ~= nil then
         fail("Failed to get unique output file name: %s", err)
         return nil, nil
