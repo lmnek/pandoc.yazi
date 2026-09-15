@@ -3,7 +3,9 @@ local function fail(s, ...)
 end
 
 local function run_pandoc(in_url, out_url, args)
-    local uniq_out_url, err = fs.unique_name(Url(out_url))
+    -- fs.unique("file", url) replaced fs.unique_name(url); keep fallback for older Yazi
+    local url = Url(out_url)
+    local uniq_out_url, err = type(fs.unique) == "function" and fs.unique("file", url) or fs.unique_name(url)
     if uniq_out_url == nil or err ~= nil then
         fail("Failed to get unique output file name: %s", err)
         return nil, nil
