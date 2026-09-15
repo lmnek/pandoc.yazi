@@ -83,8 +83,8 @@ end
 
 local selected_else_hovered = ya.sync(function()
     local tab, paths = cx.active, {}
-    for _, u in pairs(tab.selected) do
-        paths[#paths + 1] = tostring(u)
+    for _, f in pairs(tab.selected) do
+        paths[#paths + 1] = tostring(f.url or f) -- File on new Yazi, Url on old
     end
     if #paths == 0 and tab.current.hovered then
         paths[1] = tostring(tab.current.hovered.url)
